@@ -7,6 +7,7 @@ import { Chat } from './components/chat/chat';
 import { Profile } from './components/profile/profile';
 import { Navbar } from './components/navbar/navbar';
 import { CreateUser } from './components/create-user/create-user';
+import { UserSettings } from './components/user-settings/user-settings';
 
 export const routes: Routes = [
   {
@@ -32,4 +33,5 @@ export const routes: Routes = [
   { path: 'chat', component: Chat, title: 'Chat' },
   { path: 'navbar', component: Navbar, title: 'Navbar' },
   { path: 'create-user', component: CreateUser, title: 'Create User' },
+  { path: 'user-settings', component: UserSettings, title: 'User Settings' },
 ];

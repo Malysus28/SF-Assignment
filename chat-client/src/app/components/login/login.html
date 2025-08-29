@@ -1,29 +1,32 @@
-<div class="d-flex justify-content-center">
-  <div class="text-center">
-    <h1 class="display-4">Login</h1>
-    <p class="lead">Some text about logging in</p>
-  </div>
-</div>
-<div class="card shadow p-4" style="max-width: 28rem; margin: auto">
-  <form>
+<div class="container" style="max-width: 380px; margin-top: 32px">
+  <h2>Login</h2>
+  <!-- login form -->
+  <form (ngSubmit)="login()" #f="ngForm">
+    <!-- email -->
     <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <label>Email</label>
       <input
-        type="email"
         class="form-control"
-        id="exampleInputEmail1"
-        aria-describedby="emailHelp"
+        type="email"
+        [(ngModel)]="email"
+        name="email"
       />
-      <div id="emailHelp" class="form-text">
-        We'll never share your email with anyone else.
-      </div>
     </div>
-
+    <!-- errormessage hidden/display -->
+    <div [hidden]="!errorMessage" class="alert alert-danger mt-2">
+      {{ errorMessage }}
+    </div>
+    <!-- password -->
     <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" />
+      <label>Password</label>
+      <input
+        class="form-control"
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+      />
     </div>
-
-    <button type="submit" class="btn btn-success w-100">Submit</button>
+    <!-- submit button -->
+    <button class="btn btn-primary w-100" type="submit">Login</button>
   </form>
 </div>

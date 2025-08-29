@@ -4,20 +4,22 @@
     <div class="card h-100">
       <img src="dog1.jpg" class="card-img-top" alt="..." />
       <div class="card-body">
-        <h5 class="card-title">Card title</h5>
+        <h5 class="card-title">Hello {{ user?.username }}</h5>
         <p class="card-text">
           Some quick example text to build on the card title and make up the
           bulk of the card’s content.
         </p>
-        <ul class="list-group">
-          <li class="list-group-item">Username:</li>
-          <li class="list-group-item">Email:</li>
-          <li class="list-group-item">Birthdate:</li>
-          <li class="list-group-item">Age:</li>
-          <li class="list-group-item">Groups:</li>
-          <li class="list-group-item">Role:</li>
-          <li class="list-group-item">Channels:</li>
-        </ul>
+        <div *ngIf="user">
+          <ul class="list-group">
+            <li class="list-group-item">Username: {{ user?.username }}</li>
+            <li class="list-group-item">Email: {{ user?.email }}</li>
+            <li class="list-group-item">Birthdate: {{ user?.birthdate }}</li>
+            <li class="list-group-item">Age: {{ user?.age }}</li>
+            <li class="list-group-item">Groups: {{ user?.groups }}</li>
+            <li class="list-group-item">Role: {{ user?.role }}</li>
+            <li class="list-group-item">Channels:</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -25,34 +27,60 @@
   <!-- form -->
   <div class="col-md-6">
     <h3 class="h5 mb-3">Update Profile Info</h3>
-    <form>
+    <form (ngSubmit)="save()">
       <div class="mb-2">
         <label class="form-label">Username</label>
-        <input class="form-control" name="username" />
+        <input
+          class="form-control"
+          name="username"
+          [(ngModel)]="formUser.username"
+        />
       </div>
 
       <div class="mb-2">
         <label class="form-label">Birthdate</label>
-        <input class="form-control" type="date" name="birthdate" />
+        <input
+          class="form-control"
+          type="date"
+          name="birthdate"
+          [(ngModel)]="formUser.birthdate"
+        />
       </div>
 
       <div class="mb-2">
         <label class="form-label">Age</label>
-        <input class="form-control" type="number" name="age" />
+        <input
+          class="form-control"
+          type="number"
+          name="age"
+          [(ngModel)]="formUser.age"
+        />
       </div>
 
       <div class="mb-2">
         <label class="form-label">Email</label>
-        <input class="form-control" type="email" name="email" />
+        <input
+          class="form-control"
+          type="email"
+          name="email"
+          [(ngModel)]="formUser.email"
+        />
       </div>
 
       <div class="mb-2">
         <label class="form-label">Password</label>
-        <input class="form-control" type="password" name="password" />
+        <input
+          class="form-control"
+          type="password"
+          name="password"
+          [(ngModel)]="formUser.password"
+        />
       </div>
       <!-- buttons -->
       <button class="btn btn-primary" type="submit">Save</button>
-      <button class="btn btn-secondary ms-2" type="button">Reset</button>
+      <button class="btn btn-secondary ms-2" type="button" (click)="reset()">
+        Reset
+      </button>
     </form>
   </div>
 </div>

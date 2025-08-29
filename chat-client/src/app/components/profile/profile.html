@@ -1,1 +1,58 @@
-<p>profile works!</p>
+<div class="row mt-3">
+  <!-- profile card -->
+  <div class="col-md-6">
+    <div class="card h-100">
+      <img src="dog1.jpg" class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the
+          bulk of the card’s content.
+        </p>
+        <ul class="list-group">
+          <li class="list-group-item">Username:</li>
+          <li class="list-group-item">Email:</li>
+          <li class="list-group-item">Birthdate:</li>
+          <li class="list-group-item">Age:</li>
+          <li class="list-group-item">Groups:</li>
+          <li class="list-group-item">Role:</li>
+          <li class="list-group-item">Channels:</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- form -->
+  <div class="col-md-6">
+    <h3 class="h5 mb-3">Update Profile Info</h3>
+    <form>
+      <div class="mb-2">
+        <label class="form-label">Username</label>
+        <input class="form-control" name="username" />
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Birthdate</label>
+        <input class="form-control" type="date" name="birthdate" />
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Age</label>
+        <input class="form-control" type="number" name="age" />
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Email</label>
+        <input class="form-control" type="email" name="email" />
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Password</label>
+        <input class="form-control" type="password" name="password" />
+      </div>
+      <!-- buttons -->
+      <button class="btn btn-primary" type="submit">Save</button>
+      <button class="btn btn-secondary ms-2" type="button">Reset</button>
+    </form>
+  </div>
+</div>

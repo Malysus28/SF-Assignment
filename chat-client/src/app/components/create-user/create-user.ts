@@ -53,7 +53,6 @@ export class CreateUser {
       email: '',
       password: '',
       roles: ['User'],
-      // groupNames: [],
       groupNames: [...this.arr2.groupNames],
     };
   }

@@ -60,14 +60,28 @@ class User {
 
 // hard-coded users
 var users = [
-  new User("uid1", "Bella", "2001-05-20", 10, "b@gmail.com", "123", true, [
+  new User(
+    "uid1",
+    "Bella",
+    "2001-05-20",
+    10,
+    "b@gmail.com",
+    "123",
+    true,
     [Roles.GroupAdmin],
-    ["g1"],
-  ]),
-  new User("uid2", "Alex", "2000-11-02", 5, "alex@gmail.com", "123", true, [
+    ["g1"]
+  ),
+  new User(
+    "uid2",
+    "Alex",
+    "2000-11-02",
+    5,
+    "alex@gmail.com",
+    "123",
+    true,
     [Roles.SuperAdmin],
-    ["g1", "g2", "g3"],
-  ]),
+    ["g1", "g2", "g3"]
+  ),
   new User(
     "uid3",
     "superadmin",
@@ -79,10 +93,17 @@ var users = [
     [Roles.SuperAdmin],
     ["g1", "g2", "g3"]
   ),
-  new User("uid4", "Malees", "1998-08-15", 3, "malees@gmail.com", "123", true, [
-    Roles.USER,
-    ["g1"],
-  ]),
+  new User(
+    "uid4",
+    "Malees",
+    "1998-08-15",
+    3,
+    "malees@gmail.com",
+    "123",
+    true,
+    [Roles.USER],
+    ["g1"]
+  ),
 ];
 // map this id to name
 function groupIdsToNames(ids = []) {

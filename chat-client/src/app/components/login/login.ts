@@ -12,6 +12,7 @@ import { Auth } from '../../services/auth/auth';
 export class Login implements OnInit {
   // for input field in the form
   email: string = '';
+  username: string = '';
   password: string = '';
   errorMessage: string = '';
 
@@ -42,7 +43,7 @@ export class Login implements OnInit {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: this.email,
+        username: this.username,
         password: this.password,
       }),
     })

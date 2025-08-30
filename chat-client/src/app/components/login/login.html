@@ -2,14 +2,14 @@
   <h2>Login</h2>
   <!-- login form -->
   <form (ngSubmit)="login()" #f="ngForm">
-    <!-- email -->
+    <!-- username -->
     <div class="mb-3">
-      <label>Email</label>
+      <label>Username</label>
       <input
         class="form-control"
-        type="email"
-        [(ngModel)]="email"
-        name="email"
+        type="text"
+        [(ngModel)]="username"
+        name="username"
       />
     </div>
     <!-- errormessage hidden/display -->

@@ -19,6 +19,8 @@ export class Profile implements OnInit {
     email: '',
     password: '',
     valid: false,
+    roles: [],
+    groups: [],
   };
   savedMsg = '';
 
@@ -39,12 +41,14 @@ export class Profile implements OnInit {
       this.formUser = { ...this.user };
     } catch {
       // if that fails then navigate to not logged in state
-      this.router.navigate(['/']);
+      this.router.navigate(['/home']);
     }
   }
 
   save(): void {
     // write edited form data back to localStorage
+    if (!this.formUser.roles) this.formUser.roles = this.user?.roles ?? [];
+    if (!this.formUser.groups) this.formUser.groups = this.user?.groups ?? [];
     localStorage.setItem('currentUser', JSON.stringify(this.formUser));
     // update the card with the edited stuff
     this.user = { ...this.formUser };
@@ -54,6 +58,8 @@ export class Profile implements OnInit {
   reset(): void {
     //to clear when reset is clicked
     this.formUser = {
+      // keep the roles and groups as is
+      ...this.formUser,
       username: '',
       birthdate: '',
       age: null,

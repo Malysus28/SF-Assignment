@@ -61,25 +61,33 @@ class User {
 // hard-coded users
 var users = [
   new User("uid1", "Bella", "2001-05-20", 10, "b@gmail.com", "123", true, [
-    Roles.GroupAdmin,
+    [Roles.GroupAdmin],
+    ["g1"],
   ]),
   new User("uid2", "Alex", "2000-11-02", 5, "alex@gmail.com", "123", true, [
-    Roles.SuperAdmin,
+    [Roles.SuperAdmin],
+    ["g1", "g2", "g3"],
   ]),
   new User(
-    "uid2",
+    "uid3",
     "superadmin",
     "2000-11-02",
     5,
     "superadmin@gmail.com",
     "123",
     true,
-    [Roles.SuperAdmin]
+    [Roles.SuperAdmin],
+    ["g1", "g2", "g3"]
   ),
-  new User("uid3", "Malees", "1998-08-15", 3, "malees@gmail.com", "123", true, [
+  new User("uid4", "Malees", "1998-08-15", 3, "malees@gmail.com", "123", true, [
     Roles.USER,
+    ["g1"],
   ]),
 ];
+// map this id to name
+function groupIdsToNames(ids = []) {
+  return ids.map((id) => groups.find((g) => g.id === id)?.name).filter(Boolean);
+}
 
 // define the POST endpoint at api/auth
 app.post("/api/auth", function (req, res) {
@@ -107,6 +115,8 @@ app.post("/api/auth", function (req, res) {
     email: foundUser.email,
     roles: foundUser.roles,
     valid: foundUser.valid,
+    groups: foundUser.groups,
+    groupNames: groupIdsToNames(foundUser.groups),
   };
 
   res.json({ ok: true, user: safeUser });

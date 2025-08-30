@@ -15,7 +15,15 @@
             <li class="list-group-item">Email: {{ user?.email }}</li>
             <li class="list-group-item">Birthdate: {{ user?.birthdate }}</li>
             <li class="list-group-item">Age: {{ user?.age }}</li>
-            <li class="list-group-item">Groups: {{ user?.groups }}</li>
+            <li class="list-group-item">
+              Groups:
+              {{
+                (user?.groupNames?.length
+                  ? user.groupNames
+                  : user?.groups
+                )?.join(", ")
+              }}
+            </li>
             <li class="list-group-item">Role: {{ user?.role }}</li>
             <li class="list-group-item">Channels:</li>
           </ul>

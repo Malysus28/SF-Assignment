@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-user',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './create-user.html',
   styleUrl: './create-user.css',
 })
@@ -23,21 +23,12 @@ export class CreateUser {
     birthdate: '',
     email: '',
     password: '',
-    roles: ['User'] as string[],
-    groupNames: [] as string[],
+    roles: ['User'],
+    groupNames: [],
   };
 
   constructor(private router: Router) {}
 
-  toggleRole(role: string, on: boolean) {
-    if (on && !this.arr2.roles.includes(role)) this.arr2.roles.push(role);
-    if (!on) this.arr2.roles = this.arr2.roles.filter((r) => r !== role);
-    // always keep 'User'
-    if (!this.arr2.roles.includes('User')) this.arr2.roles.push('User');
-  }
-
-  // build the same shape your profile expects:
-  // - it looks for groupNames first, then groups
   create() {
     const newUser = {
       id: 'u-' + Math.random().toString(36).slice(2, 8),
@@ -62,7 +53,8 @@ export class CreateUser {
       email: '',
       password: '',
       roles: ['User'],
-      groupNames: [],
+      // groupNames: [],
+      groupNames: [...this.arr2.groupNames],
     };
   }
 }

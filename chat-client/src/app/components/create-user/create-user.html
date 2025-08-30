@@ -40,6 +40,7 @@
     [(ngModel)]="arr2.birthdate"
     name="birthday"
   />
+  <br />
 
   <!-- group drop down menu -->
   <label for="group" class="form-label">Group</label>
@@ -48,12 +49,9 @@
     id="group"
     [(ngModel)]="arr2.groupNames"
     name="groupNames"
+    multiple
   >
-    <option selected>Select group</option>
-    <option value="1">Griffith Uni Events</option>
-    <option value="2">Peer Mentor Group</option>
-    <option value="3">Griffith Mates</option>
-    <option value="4">ICT Club group</option>
+    <option *ngFor="let g of groupNameOptions" [ngValue]="g">{{ g }}</option>
   </select>
 
   <!-- submit button   -->

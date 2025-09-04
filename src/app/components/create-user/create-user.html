@@ -1,0 +1,60 @@
+<!-- bootstrap element 1 of email + passowrd  -->
+<form (ngSubmit)="create()">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input
+      type="email"
+      class="form-control"
+      [(ngModel)]="arr2.email"
+      id="exampleInputEmail1"
+      name="email"
+      aria-describedby="emailHelp"
+    />
+  </div>
+  <!-- user name-->
+  <label for="username" class="form-label">Username</label>
+  <input
+    type="text"
+    class="form-control"
+    id="username"
+    [(ngModel)]="arr2.username"
+    name="username"
+  />
+  <!-- password -->
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="exampleInputPassword1"
+      [(ngModel)]="arr2.password"
+      name="password"
+    />
+  </div>
+  <!-- birthday -->
+  <label for="birthday" class="form-label">Birthday</label>
+  <input
+    type="date"
+    class="form-control"
+    id="birthday"
+    [(ngModel)]="arr2.birthdate"
+    name="birthday"
+  />
+  <br />
+
+  <!-- group drop down menu -->
+  <label for="group" class="form-label">Group</label>
+  <select
+    class="form-select"
+    id="group"
+    [(ngModel)]="arr2.groupNames"
+    name="groupNames"
+    multiple
+  >
+    <option *ngFor="let g of groupNameOptions" [ngValue]="g">{{ g }}</option>
+  </select>
+
+  <!-- submit button   -->
+  <br />
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

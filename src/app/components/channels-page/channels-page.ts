@@ -67,11 +67,14 @@ const CHANNELS: Channel[] = [
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './channels-page.html',
-  styleUrls: ['./channels-page.css'], // note the plural: styleUrls
+  styleUrls: ['./channels-page.css'],
 })
 export class ChannelsPage implements OnInit {
+  // this is empty because when user logs in it can be filled in later.
   channels: Channel[] = [];
 
+  // my lifecycle method which reads the user info from local storage and then filters the channels based on the groups the user belongs to.
+  // get groups .
   ngOnInit(): void {
     const raw = localStorage.getItem('currentUser');
     if (!raw) {
@@ -79,12 +82,12 @@ export class ChannelsPage implements OnInit {
       return;
     }
     const user = JSON.parse(raw);
-    const groupIds: string[] = Array.isArray(user?.groups) ? user.groups : [];
+    const groupIds = user.groups;
     if (!groupIds.length) {
       this.channels = [];
       return;
     }
-    const allowed = new Set(groupIds);
-    this.channels = CHANNELS.filter((ch) => allowed.has(ch.groupId));
+    // using includes i check if this channel belong to the usergroup
+    this.channels = CHANNELS.filter((ch) => groupIds.includes(ch.groupId));
   }
 }

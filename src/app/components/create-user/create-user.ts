@@ -11,13 +11,14 @@ import { Router } from '@angular/router';
   styleUrl: './create-user.css',
 })
 export class CreateUser {
+  // for drop down box which is not working very well. Need to fix this
   optionforroles = ['User', 'Group-Admin', 'Super-Admin'];
   groupNameOptions = [
     'Peer Mentors',
     'Griffith Coding Club',
     'PASS Study Group',
   ];
-
+  // my object that holds the form data, this is connected to ngModel in the html file
   arr2 = {
     username: '',
     birthdate: '',
@@ -28,10 +29,9 @@ export class CreateUser {
   };
 
   constructor(private router: Router) {}
-
+  // copy the values from arr2 to newUser object and store it in local storage
   create() {
     const newUser = {
-      id: 'u-' + Math.random().toString(36).slice(2, 8),
       username: this.arr2.username,
       birthdate: this.arr2.birthdate,
       email: this.arr2.email,
@@ -42,10 +42,11 @@ export class CreateUser {
     };
 
     localStorage.setItem('currentUser', JSON.stringify(newUser));
+    // mimic authenticsaation by setting a dummy token
     localStorage.setItem('token', 'dev');
     this.router.navigate(['/profile']);
   }
-
+  // reset button for the form values to get reset
   reset() {
     this.arr2 = {
       username: '',

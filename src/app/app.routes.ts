@@ -22,11 +22,17 @@ export const routes: Routes = [
     component: Home,
     title: 'Home',
   },
-  { path: 'chat/:name', component: Chat, title: 'Chat' },
+  {
+    path: 'chat/:name',
+    component: Chat,
+    title: 'Chat',
+    canActivate: [authGuard],
+  },
   {
     path: 'channels',
     component: ChannelsPage,
     title: 'Channels',
+    canActivate: [authGuard],
   },
   {
     path: 'profile',
@@ -37,5 +43,10 @@ export const routes: Routes = [
   { path: 'chat', component: Chat, title: 'Chat' },
   { path: 'navbar', component: Navbar, title: 'Navbar' },
   { path: 'create-user', component: CreateUser, title: 'Create User' },
-  { path: 'user-settings', component: UserSettings, title: 'User Settings' },
+  {
+    path: 'user-settings',
+    component: UserSettings,
+    title: 'User Settings',
+    canActivate: [authGuard],
+  },
 ];

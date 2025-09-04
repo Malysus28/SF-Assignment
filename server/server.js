@@ -18,21 +18,6 @@ const groups = [
   { id: "g3", name: "PASS Study Group" },
 ];
 
-// channels
-const channels = [
-  // for group 1 peer mentors
-  { id: "c1", groupId: "g1", name: "Upcoming Workshops for Trimester 1" },
-  { id: "c2", groupId: "g1", name: "Events hosted by Peer Mentors" },
-  { id: "c3", groupId: "g1", name: "Ask us Anything" },
-  // for group 2 Griffith Coding Club
-  { id: "c4", groupId: "g2", name: "Hackathon Info" },
-  { id: "c5", groupId: "g2", name: "ICPC Competition" },
-  { id: "c6", groupId: "g2", name: "Q&A" },
-  // for group 3 PASS Study Group
-  { id: "c7", groupId: "g3", name: "Interaction Design Module" },
-  { id: "c8", groupId: "g3", name: "Software Frameworks Module" },
-  { id: "c9", groupId: "g3", name: "Web App Dev Module" },
-];
 // User class defined, to be fixed tmrw
 class User {
   constructor(
@@ -105,21 +90,14 @@ var users = [
     ["g1"]
   ),
 ];
-// map this id to name
-function groupIdsToNames(ids = []) {
-  return ids.map((id) => groups.find((g) => g.id === id)?.name).filter(Boolean);
-}
 
-// define the POST endpoint at api/auth
+// this is for the login authentication
 app.post("/api/auth", function (req, res) {
-  // console.log("POST /api/auth", req.body);
-  // contains data sent from front end email and password in req.body
   var username = req.body && req.body.username ? req.body.username : "";
   var password = req.body && req.body.password ? req.body.password : "";
   console.log(username, password);
 
   // loop through users to find a match and case sensitive when found take it and store it in foundUser variable
-  // this section needs to get fixed
   var foundUser = null;
   for (var i = 0; i < users.length; i++) {
     var u = users[i];
@@ -137,7 +115,6 @@ app.post("/api/auth", function (req, res) {
     roles: foundUser.roles,
     valid: foundUser.valid,
     groups: foundUser.groups,
-    groupNames: groupIdsToNames(foundUser.groups),
   };
 
   res.json({ ok: true, user: safeUser });

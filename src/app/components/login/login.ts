@@ -17,8 +17,6 @@ export class Login implements OnInit {
   password: string = '';
   errorMessage: string = '';
 
-  // users: { email: string; password: string }[] = [];
-
   // inject router for page navigation and Auth
   constructor(
     private router: Router,
@@ -60,6 +58,7 @@ export class Login implements OnInit {
           const token = data.token || 'dummy-token';
           // save token and user info to backend
           this.auth.setSession(token, data.user);
+          localStorage.setItem('currentUser', JSON.stringify(data.user));
           this.router.navigate(['/profile']);
         } else {
           // if login fail then err msg

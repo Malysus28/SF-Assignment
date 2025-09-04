@@ -90,6 +90,10 @@ var users = [
     ["g1"]
   ),
 ];
+//used to convert the group id to readable names so that i can show that in the profile page.
+function groupIdsToNames(ids = []) {
+  return ids.map((id) => groups.find((g) => g.id === id)?.name).filter(Boolean);
+}
 
 // this is for the login authentication
 app.post("/api/auth", function (req, res) {
@@ -115,10 +119,10 @@ app.post("/api/auth", function (req, res) {
     roles: foundUser.roles,
     valid: foundUser.valid,
     groups: foundUser.groups,
+    groupNames: groupIdsToNames(foundUser.groups),
   };
 
   res.json({ ok: true, user: safeUser });
-  //res.send might be a better way to go about this.(alan's advice)
 });
 
 // start the server

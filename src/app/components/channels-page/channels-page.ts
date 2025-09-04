@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 type Channel = { id: string; groupId: string; name: string; des: string };
 
@@ -64,7 +65,7 @@ const CHANNELS: Channel[] = [
 @Component({
   selector: 'app-channels-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './channels-page.html',
   styleUrls: ['./channels-page.css'], // note the plural: styleUrls
 })

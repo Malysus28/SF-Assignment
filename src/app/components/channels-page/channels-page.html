@@ -35,6 +35,12 @@
       <h5 class="card-title">{{ ch.name }}</h5>
       <p class="card-text">{{ ch.des }}</p>
     </div>
-    <button type="button" class="btn btn-success">Enter Chat</button>
+    <button
+      type="button"
+      class="btn btn-success"
+      [routerLink]="['/chat', ch.name]"
+    >
+      Enter Chat
+    </button>
   </div>
 </div>

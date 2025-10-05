@@ -16,6 +16,7 @@ async function main() {
   const Users = db.collection("users");
   const Groups = db.collection("groups");
   const Messages = db.collection("messages");
+  const GroupRequests = db.collection("group_requests");
 
   // Seed data only if DB empty
   if ((await Users.countDocuments()) === 0) {
@@ -84,9 +85,9 @@ async function main() {
       return res.status(401).json({ ok: false, error: "Invalid credentials" });
 
     const allGroups = await Groups.find({}).toArray();
-    const groupNames = user.groups.map(
-      (id) => allGroups.find((g) => g.id === id)?.name
-    );
+    const groupNames = (user.groups || [])
+      .map((id) => allGroups.find((g) => g.id === id)?.name)
+      .filter(Boolean);
 
     res.json({
       ok: true,
@@ -191,7 +192,9 @@ async function main() {
       io.to(ch).emit("presence", membersOf(ch));
     });
   });
+  //group experiment
 
+  //group experiment enf
   const PORT = 3000;
   server.listen(PORT, () =>
     console.log(`Server + Mongo running on http://localhost:${PORT}`)

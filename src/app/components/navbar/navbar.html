@@ -14,11 +14,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+        <!-- home page link -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/home" routerLinkActive="active"
             >Home</a
           >
         </li>
+        <!-- channels link -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/channels" routerLinkActive="active"
             >Channels</a
@@ -30,28 +32,27 @@
             >Chats</a
           >
         </li> -->
+
+        <!-- group page -->
         <li class="nav-item">
-          <!-- Show Chats only if logged in -->
           <a
-            *ngIf="loggedIn; else chatDisabled"
+            *ngIf="loggedIn; else groupsDisabled"
             class="nav-link"
-            routerLink="/chat"
+            routerLink="/groups"
             routerLinkActive="active"
           >
-            Chats
+            Groups
           </a>
-
-          <!-- Disabled version if not logged in -->
-          <ng-template #chatDisabled>
+          <ng-template #groupsDisabled>
             <a
               class="nav-link disabled"
               style="opacity: 0.6; cursor: not-allowed"
+              >Groups</a
             >
-              Chats
-            </a>
           </ng-template>
         </li>
 
+        <!-- profile page link -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/profile" routerLinkActive="active"
             >Profile</a
@@ -65,6 +66,8 @@
             >Create User</a
           >
         </li> -->
+
+        <!-- user settings page link  -->
         <li class="nav-item">
           <a
             class="nav-link"
@@ -73,16 +76,23 @@
             >User Settings</a
           >
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login" routerLinkActive="active"
-            >Login</a
-          >
-        </li>
-        <li>
-          <button (click)="logout()" type="button" class="btn btn-danger">
-            Logout
-          </button>
-        </li>
+        <!-- login page link -->
+        <ul class="navbar-nav align-items-center gap-3">
+          <!-- ... your nav items ... -->
+          <li class="nav-item">
+            <a
+              class="btn btn-success"
+              routerLink="/login"
+              routerLinkActive="active"
+              >Login</a
+            >
+          </li>
+          <li>
+            <button (click)="logout()" type="button" class="btn btn-danger">
+              Logout
+            </button>
+          </li>
+        </ul>
       </ul>
     </div>
   </div>

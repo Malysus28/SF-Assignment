@@ -1,0 +1,52 @@
+<div class="jumbotron">
+  <h1 class="display-5 mb-2">Groups</h1>
+  <p class="lead mb-1">
+    Here are the groups you are in. If you’re in a group, you have access to
+    that group’s chat channels.
+  </p>
+  <small class="text-muted">
+    Want more chats? Join additional groups to see their channels on the
+    Channels page.
+  </small>
+  <hr class="my-3" />
+</div>
+
+<div *ngIf="!user" class="text-muted">Please log in to see your groups.</div>
+
+<div *ngIf="user">
+  <!-- groups that the user is in -->
+  <h4>Your Groups</h4>
+  <ul class="list-group mb-4">
+    <li *ngIf="myGroupNames.length === 0" class="list-group-item text-muted">
+      You’re not in any groups yet.
+    </li>
+    <li *ngFor="let g of myGroupNames" class="list-group-item">
+      {{ g }}
+    </li>
+  </ul>
+  <!-- groups that are available for user to join -->
+  <h4>Available Groups</h4>
+  <ul class="list-group">
+    <li
+      *ngIf="availableGroupNames.length === 0"
+      class="list-group-item text-muted"
+    >
+      No other groups available.
+    </li>
+
+    <!-- register btn -->
+    <li
+      *ngFor="let g of availableGroupNames"
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <span>{{ g }}</span>
+      <button
+        type="button"
+        class="btn btn-sm btn-primary"
+        (click)="register(g)"
+      >
+        Register
+      </button>
+    </li>
+  </ul>
+</div>

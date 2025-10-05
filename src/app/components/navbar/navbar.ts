@@ -21,4 +21,9 @@ export class Navbar {
   get loggedIn() {
     return this.auth.isLoggedIn();
   }
+
+  isLoggedIn(): boolean {
+    const user = localStorage.getItem('currentUser');
+    return !!user; // true if user exists
+  }
 }

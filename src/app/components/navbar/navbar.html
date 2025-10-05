@@ -24,11 +24,34 @@
             >Channels</a
           >
         </li>
-        <li class="nav-item">
+
+        <!-- <li class="nav-item">
           <a class="nav-link" routerLink="/chat" routerLinkActive="active"
             >Chats</a
           >
+        </li> -->
+        <li class="nav-item">
+          <!-- Show Chats only if logged in -->
+          <a
+            *ngIf="loggedIn; else chatDisabled"
+            class="nav-link"
+            routerLink="/chat"
+            routerLinkActive="active"
+          >
+            Chats
+          </a>
+
+          <!-- Disabled version if not logged in -->
+          <ng-template #chatDisabled>
+            <a
+              class="nav-link disabled"
+              style="opacity: 0.6; cursor: not-allowed"
+            >
+              Chats
+            </a>
+          </ng-template>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" routerLink="/profile" routerLinkActive="active"
             >Profile</a

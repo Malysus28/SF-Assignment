@@ -4,19 +4,27 @@
     <div class="card h-100">
       <img src="dog1.jpg" class="card-img-top" alt="..." />
       <div class="card-body">
-        <h5 class="card-title">Hello {{ user?.username }}</h5>
+        <h2 class="card-title">Hello {{ user?.username }}</h2>
         <p class="card-text">
           Some quick example text to build on the card title and make up the
           bulk of the card’s content.
         </p>
         <div *ngIf="user">
           <ul class="list-group">
-            <li class="list-group-item">Username: {{ user?.username }}</li>
-            <li class="list-group-item">Email: {{ user?.email }}</li>
-            <li class="list-group-item">Birthdate: {{ user?.birthdate }}</li>
-            <li class="list-group-item">Age: {{ user?.age }}</li>
             <li class="list-group-item">
-              Groups:
+              <strong>Username: </strong>{{ user?.username }}
+            </li>
+            <li class="list-group-item">
+              <strong>Email:</strong> {{ user?.email }}
+            </li>
+            <li class="list-group-item">
+              <strong>Birthdate:</strong> {{ user?.birthdate }}
+            </li>
+            <li class="list-group-item">
+              <strong>Age:</strong> {{ user?.age }}
+            </li>
+            <li class="list-group-item">
+              <strong> Groups:</strong>
               {{
                 (user?.groupNames?.length
                   ? user.groupNames
@@ -24,7 +32,9 @@
                 )?.join(", ")
               }}
             </li>
-            <li class="list-group-item">Role: {{ user?.roles?.join(", ") }}</li>
+            <li class="list-group-item">
+              <strong>Role:</strong> {{ user?.roles?.join(", ") }}
+            </li>
           </ul>
         </div>
       </div>
@@ -33,10 +43,10 @@
 
   <!-- form -->
   <div class="col-md-6">
-    <h3 class="h5 mb-3">Update Profile Info</h3>
+    <h3 class="h2 mb-3">Update Profile Info</h3>
     <form (ngSubmit)="save()">
       <div class="mb-2">
-        <label class="form-label">Username</label>
+        <label class="form-label"><strong>Username</strong></label>
         <input
           class="form-control"
           name="username"
@@ -45,7 +55,7 @@
       </div>
 
       <div class="mb-2">
-        <label class="form-label">Birthdate</label>
+        <label class="form-label"><strong>Birthdate</strong></label>
         <input
           class="form-control"
           type="date"
@@ -55,7 +65,7 @@
       </div>
 
       <div class="mb-2">
-        <label class="form-label">Age</label>
+        <label class="form-label"><strong>Age</strong></label>
         <input
           class="form-control"
           type="number"
@@ -65,7 +75,7 @@
       </div>
 
       <div class="mb-2">
-        <label class="form-label">Email</label>
+        <label class="form-label"><strong>Email</strong></label>
         <input
           class="form-control"
           type="email"
@@ -75,7 +85,7 @@
       </div>
 
       <div class="mb-2">
-        <label class="form-label">Password</label>
+        <label class="form-label"><strong>Password</strong></label>
         <input
           class="form-control"
           type="password"

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SocketService, ChatMessage } from '../../services/socket.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chat',
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './chat.html',
   styleUrl: './chat.css',
 })
@@ -12,7 +15,11 @@ export class Chat implements OnInit {
   channelName: string | null = null;
   currentUser: any = null;
 
-  constructor(private route: ActivatedRoute) {}
+  // chat state
+  messages: ChatMessage[] = [];
+  messageText = '';
+
+  constructor(private route: ActivatedRoute, private sockets: SocketService) {}
 
   // my lifecycle hook to run when the component is first created
   ngOnInit(): void {
@@ -21,7 +28,40 @@ export class Chat implements OnInit {
     // read data from local storage. useing raw convert data from text to an object.
     const raw = localStorage.getItem('currentUser');
     if (raw) {
-      this.currentUser = JSON.parse(raw);
+      try {
+        this.currentUser = JSON.parse(raw);
+      } catch {
+        this.currentUser = null;
+      }
     }
+
+    // join and start listening
+    if (this.channelName && this.currentUser) {
+      this.sockets.join(this.channelName, {
+        username: this.currentUser.username,
+      });
+
+      this.sockets.onMessage().subscribe((msg) => {
+        // keep only messages for this channel
+        if (msg.channel === this.channelName) {
+          this.messages.push(msg);
+        }
+      });
+    }
+  }
+
+  send() {
+    if (!this.messageText.trim() || !this.channelName || !this.currentUser)
+      return;
+
+    const msg: ChatMessage = {
+      channel: this.channelName,
+      user: { username: this.currentUser.username },
+      text: this.messageText.trim(),
+      ts: Date.now(),
+    };
+
+    this.sockets.sendMessage(msg);
+    this.messageText = '';
   }
 }

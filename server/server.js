@@ -111,6 +111,11 @@ app.post("/api/auth", function (req, res) {
     }
   }
 
+  // test
+  if (!foundUser) {
+    return res.status(401).json({ ok: false, error: "Invalid credentials" });
+  }
+
   var safeUser = {
     username: foundUser.username,
     birthdate: foundUser.birthdate,
@@ -125,8 +130,39 @@ app.post("/api/auth", function (req, res) {
   res.json({ ok: true, user: safeUser });
 });
 
-// start the server
+// ✅ ADD: create an HTTP server from Express (instead of app.listen)
+const server = http.createServer(app);
+
+// ✅ ADD: attach Socket.IO to the same server
+const { Server } = require("socket.io");
+const io = new Server(server, {
+  cors: {
+    origin: "*", // dev only; tighten for prod
+  },
+});
+
+// chat handlers
+io.on("connection", (socket) => {
+  console.log("socket connected", socket.id);
+
+  socket.on("join", ({ channel, user }) => {
+    socket.join(channel);
+    console.log(`${user?.username} joined ${channel}`);
+  });
+
+  socket.on("chat:message", (msg) => {
+    // msg = { channel, user:{username}, text, ts }
+    if (!msg?.channel || !msg?.text) return;
+    io.to(msg.channel).emit("chat:message", msg);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("socket disconnected", socket.id);
+  });
+});
+
+//start server
 var PORT = process.env.PORT || 3000;
-app.listen(PORT, function () {
-  console.log("API running at http://localhost:" + PORT);
+server.listen(PORT, function () {
+  console.log("API + Socket.IO running at http://localhost:" + PORT);
 });

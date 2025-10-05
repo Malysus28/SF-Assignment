@@ -67,7 +67,7 @@ export class Login implements OnInit {
       })
       .catch((err) => {
         console.error(err);
-        this.errorMessage = 'Invalid User 1';
+        this.errorMessage = 'Invalid Credential, Try Again';
       });
   }
 }

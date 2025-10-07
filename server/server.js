@@ -4,14 +4,14 @@ const http = require("http");
 const { Server } = require("socket.io");
 const { MongoClient } = require("mongodb");
 
-const MONGO_URI = "mongodb://127.0.0.1:27017";
-const DB_NAME = "chatapp";
-const HISTORY_LIMIT = 50;
+const mongodbURL = "mongodb://127.0.0.1:27017";
+const mongodbName = "chatapp";
+const chatHistLimit = 50;
 
 async function main() {
-  const mongo = new MongoClient(MONGO_URI);
+  const mongo = new MongoClient(mongodbURL);
   await mongo.connect();
-  const db = mongo.db(DB_NAME);
+  const db = mongo.db(mongodbName);
 
   const Users = db.collection("users");
   const Groups = db.collection("groups");
@@ -75,8 +75,10 @@ async function main() {
   const app = express();
   app.use(express.json());
   app.use(cors());
+  const server = http.createServer(app);
+  const io = new Server(server, { cors: { origin: "*" } });
 
-  // new login set to read from the mongo db
+  // new login set to read from the mongo db REST API login
   app.post("/api/auth", async (req, res) => {
     const username = req.body?.username;
     const password = req.body?.password;
@@ -104,9 +106,6 @@ async function main() {
     });
   });
 
-  const server = http.createServer(app);
-  const io = new Server(server, { cors: { origin: "*" } });
-
   // stuff in the memory
   const channelMembers = new Map();
   const membersOf = (ch) => Array.from(channelMembers.get(ch) || []);
@@ -126,18 +125,28 @@ async function main() {
   async function getHistory(channel) {
     return await Messages.find({ channel })
       .sort({ ts: -1 })
-      .limit(HISTORY_LIMIT)
+      .limit(chatHistLimit)
       .toArray()
       .then((arr) => arr.reverse());
   }
+  // socket sec start
 
   io.on("connection", (socket) => {
     socket.data.username = null;
     socket.data.channel = null;
 
     socket.on("join", async ({ channel, user }) => {
-      const username = user?.username || "anon";
+      const username = user?.username?.trim();
+      if (!channel || !username) {
+        socket.emit("system:event", {
+          type: "error",
+          message: "join requires both channel and user.username",
+          ts: Date.now(),
+        });
+        return;
+      }
 
+      // Leave previous channel
       if (socket.data.channel) {
         const prev = socket.data.channel;
         socket.leave(prev);
@@ -147,32 +156,47 @@ async function main() {
           user: { username: socket.data.username },
           ts: Date.now(),
         });
-        io.to(prev).emit("presence", membersOf(prev));
+        io.to(prev).emit("onlineUsers", membersOf(prev));
       }
 
+      // Join new channel
       socket.join(channel);
       socket.data.username = username;
       socket.data.channel = channel;
       addMember(channel, username);
 
+      // Send history to the chat
       const history = await getHistory(channel);
       socket.emit("chat:history", history);
+
+      // Notify others
       io.to(channel).emit("system:event", {
         type: "join",
         user: { username },
         ts: Date.now(),
       });
-      io.to(channel).emit("presence", membersOf(channel));
+      io.to(channel).emit("onlineUsers", membersOf(channel));
     });
 
+    // MESSAGE label above: user/channel/ non-empty text
     socket.on("chat:message", async (msg) => {
       const channel = msg?.channel || socket.data.channel;
-      if (!channel || !msg?.text) return;
+      const text = msg?.text?.trim();
+      const username = socket.data.username;
+
+      if (!channel || !text || !username) {
+        socket.emit("system:event", {
+          type: "error",
+          message: "chat:message requires channel, text, and a joined user",
+          ts: Date.now(),
+        });
+        return;
+      }
 
       const safeMsg = {
         channel,
-        user: { username: socket.data.username },
-        text: msg.text,
+        user: { username },
+        text,
         ts: Date.now(),
       };
 
@@ -180,21 +204,26 @@ async function main() {
       io.to(channel).emit("chat:message", safeMsg);
     });
 
+    // DISCONNECT
     socket.on("disconnect", () => {
       const ch = socket.data.channel;
-      if (!ch) return;
-      removeMember(ch, socket.data.username);
+      const name = socket.data.username;
+      if (!ch || !name) return;
+
+      removeMember(ch, name);
       io.to(ch).emit("system:event", {
         type: "leave",
-        user: { username: socket.data.username },
+        user: { username: name },
         ts: Date.now(),
       });
-      io.to(ch).emit("presence", membersOf(ch));
+      io.to(ch).emit("onlineUsers", membersOf(ch));
     });
   });
+
   //group experiment
 
-  //group experiment enf
+  //group experiment end
+
   const PORT = 3000;
   server.listen(PORT, () =>
     console.log(`Server + Mongo running on http://localhost:${PORT}`)

@@ -64,7 +64,7 @@ export class GroupsPage implements OnInit {
     // console.log('availableGroupNames', this.availableGroupNames);
   }
   register(groupName: string) {
-    // super simple for now replace with your API call later if i have time for this
+    //replace with  API call later if i have time for this
     alert(`Registered interest for: ${groupName}`);
   }
 }

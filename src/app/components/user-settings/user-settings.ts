@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-user-settings',
   imports: [],
   templateUrl: './user-settings.html',
-  styleUrl: './user-settings.css'
+  styleUrl: './user-settings.css',
 })
-export class UserSettings {
-
-}
+export class UserSettings {}

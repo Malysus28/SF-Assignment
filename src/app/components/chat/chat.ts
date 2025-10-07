@@ -14,7 +14,8 @@ import { FormsModule } from '@angular/forms';
 export class Chat implements OnInit, OnDestroy {
   // channel + user
   channelName: string | null = null;
-  currentUser: any = null;
+  // currentUser: any = null;
+  currentUser: { username: string } | null = null;
 
   // chat state
   messages: ChatMessage[] = [];
@@ -29,17 +30,15 @@ export class Chat implements OnInit, OnDestroy {
     this.channelName = this.route.snapshot.paramMap.get('name');
 
     // load current user from localStorage
-    const raw = localStorage.getItem('currentUser');
-    if (raw) {
-      try {
-        this.currentUser = JSON.parse(raw);
-      } catch {
-        this.currentUser = null;
-      }
+    try {
+      const raw = localStorage.getItem('currentUser');
+      this.currentUser = raw ? JSON.parse(raw) : null;
+    } catch {
+      this.currentUser = null;
     }
 
     // join & subscribe to events
-    if (this.channelName && this.currentUser) {
+    if (this.channelName && this.currentUser?.username) {
       this.sockets.join(this.channelName, {
         username: this.currentUser.username,
       });
@@ -62,14 +61,18 @@ export class Chat implements OnInit, OnDestroy {
       });
 
       // presence/online list
-      this.sockets.onPresence().subscribe((list) => {
-        this.onlineUsers = Array.isArray(list) ? list : [];
+      this.sockets.onOnlineUser().subscribe((users: string[]) => {
+        this.onlineUsers = Array.isArray(users) ? users : [];
       });
     }
   }
 
   send() {
-    if (!this.messageText.trim() || !this.channelName || !this.currentUser)
+    if (
+      !this.messageText.trim() ||
+      !this.channelName ||
+      !this.currentUser?.username
+    )
       return;
 
     const msg: ChatMessage = {

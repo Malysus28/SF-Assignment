@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 type Group = { id: string; name: string };
 
 @Component({
-  selector: 'app-groups-page',
+  selector: 'app-group-page',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './group-page.html',
 })
-export class GroupsPage implements OnInit {
+export class GroupPage implements OnInit {
   user: any = null;
 
   // what we get to use

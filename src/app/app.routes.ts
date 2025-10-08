@@ -9,7 +9,7 @@ import { Navbar } from './components/navbar/navbar';
 import { CreateUser } from './components/create-user/create-user';
 import { UserSettings } from './components/user-settings/user-settings';
 import { authGuard } from './services/auth/auth-guard';
-import { GroupsPage } from './components/group-page/group-page';
+import { GroupPage } from './components/group-page/group-page';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -18,7 +18,7 @@ export const routes: Routes = [
     component: Login,
     title: 'Login',
   },
-  { path: 'groups', component: GroupsPage },
+  { path: 'groups', component: GroupPage },
   {
     path: 'home',
     component: Home,

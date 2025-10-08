@@ -113,4 +113,17 @@ describe('ChatAway End-to-End Tests', () => {
     //]check if send button is enabled
     cy.contains('button', /send/i).should('not.be.disabled');
   });
+
+  //to veify consisten nav bar on pages.
+  ['/', '/profile', '/groups', '/chat/general'].forEach((path) => {
+    it(`shows the navbar correctly on ${path}`, () => {
+      cy.visit(path);
+      cy.get('nav').should('exist');
+      cy.get('nav').within(() => {
+        cy.contains('Home');
+        cy.contains('Groups');
+        cy.contains('Channels');
+      });
+    });
+  });
 });

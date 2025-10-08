@@ -24,16 +24,47 @@
               <strong>Age:</strong> {{ user?.age }}
             </li>
             <li class="list-group-item">
-              <strong> Groups:</strong>
-              {{
-                (user?.groupNames?.length
-                  ? user.groupNames
-                  : user?.groups
-                )?.join(", ")
-              }}
+              <strong>Groups:</strong>
+              <div class="mt-1">
+                <ng-container
+                  *ngIf="
+                    user?.groupNames?.length
+                      ? user.groupNames
+                      : user?.groups as groups
+                  "
+                >
+                  <ng-container *ngIf="groups?.length; else noGroups">
+                    <span
+                      *ngFor="let g of groups"
+                      class="badge bg-success text-light border me-1 mb-1"
+                    >
+                      {{ g }}
+                    </span>
+                  </ng-container>
+                  <ng-template #noGroups>
+                    <span class="text-muted">None</span>
+                  </ng-template>
+                </ng-container>
+              </div>
             </li>
+
             <li class="list-group-item">
-              <strong>Role:</strong> {{ user?.roles?.join(", ") }}
+              <strong>Role:</strong>
+              <div class="mt-1">
+                <ng-container *ngIf="user?.roles as roles">
+                  <ng-container *ngIf="roles?.length; else noRoles">
+                    <span
+                      *ngFor="let r of roles"
+                      class="badge bg-primary-subtle text-primary me-1 mb-1"
+                    >
+                      {{ r }}
+                    </span>
+                  </ng-container>
+                  <ng-template #noRoles>
+                    <span class="text-muted">—</span>
+                  </ng-template>
+                </ng-container>
+              </div>
             </li>
           </ul>
         </div>
